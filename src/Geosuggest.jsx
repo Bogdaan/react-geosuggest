@@ -337,11 +337,24 @@ const Geosuggest = React.createClass({
    * @return {Function} The React element to render
    */
   render: function() {
+    var wrapClassName = '',
+      inputClassName = 'geosuggest__input';
+
+    if (typeof this.props.className.wrapClass === 'undefined') {
+      wrapClassName = 'geosuggest ' + this.props.className;
+    } else {
+      wrapClassName = this.props.className.wrapClass;
+    }
+
+    if (typeof this.props.className.inputClass !== 'undefined') {
+      inputClassName = this.props.className.inputClass;
+    }
+
     return (// eslint-disable-line no-extra-parens
-      <div className={'geosuggest ' + this.props.className}
+      <div className={wrapClassName}
           onClick={this.onClick}>
         <input
-          className="geosuggest__input"
+          className={inputClassName}
           ref="geosuggestInput"
           type="text"
           value={this.state.userInput}
@@ -363,6 +376,11 @@ const Geosuggest = React.createClass({
    * @return {Array} The suggestions
    */
   getSuggestItems: function() {
+    const suggsetClass = {
+      normal: 'geosuggest-item',
+      active: 'geosuggest-item--active'
+    };
+
     return this.state.suggests.map(function(suggest) {
       var isActive = this.state.activeSuggest &&
         suggest.placeId === this.state.activeSuggest.placeId;
@@ -372,7 +390,10 @@ const Geosuggest = React.createClass({
           key={suggest.placeId}
           suggest={suggest}
           isActive={isActive}
-          onSuggestSelect={this.selectSuggest} />
+          onSuggestSelect={this.selectSuggest}
+          className={(this.props.className.suggsetItem !== 'undefined' ?
+            this.props.className.suggsetItem : suggsetClass)}
+        />
       );
     }.bind(this));
   },
@@ -382,10 +403,19 @@ const Geosuggest = React.createClass({
    * @return {String} The classes
    */
   getSuggestsClasses: function() {
-    var classes = 'geosuggest__suggests';
+    var defaultClassNames = {
+      normal: 'geosuggest__suggests',
+      hidden: 'geosuggest__suggests--hidden'
+    };
+
+    if (typeof this.props.className.suggset !== 'undefined') {
+      defaultClassNames = this.props.className.suggset;
+    }
+
+    var classes = defaultClassNames.normal;
 
     classes += this.state.isSuggestsHidden ?
-      ' geosuggest__suggests--hidden' : '';
+      (' ' + defaultClassNames.hidden) : '';
 
     return classes;
   }

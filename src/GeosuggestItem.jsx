@@ -8,6 +8,10 @@ const GeosuggestItem = React.createClass({
   getDefaultProps: function() {
     return {
       isActive: false,
+      className: {
+        normal: 'geosuggest-item',
+        active: 'geosuggest-item--active'
+      },
       suggest: {
         label: ''
       },
@@ -43,9 +47,9 @@ const GeosuggestItem = React.createClass({
    */
   getSuggestClasses: function() {
     const className = this.props.suggest.className;
-    let classes = 'geosuggest-item';
+    var classes = this.props.className.normal;
 
-    classes += this.props.isActive ? ' geosuggest-item--active' : '';
+    classes += this.props.isActive ? (' ' + this.props.className.active) : '';
     classes += className ? ' ' + className : '';
 
     return classes;
