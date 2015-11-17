@@ -12,6 +12,7 @@ const Geosuggest = React.createClass({
     return {
       fixtures: [],
       initialValue: '',
+      fieldName: '',
       placeholder: 'Search places',
       disabled: false,
       className: '',
@@ -357,6 +358,7 @@ const Geosuggest = React.createClass({
           className={inputClassName}
           ref="geosuggestInput"
           type="text"
+          name={this.props.fieldName}
           value={this.state.userInput}
           placeholder={this.props.placeholder}
           disabled={this.props.disabled}
